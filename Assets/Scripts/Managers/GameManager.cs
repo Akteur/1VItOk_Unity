@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     private string id;
     private string playerName;
     private bool authFromTheory;
+    private bool uniquePlayer;
+    private bool emptyAuthData;
+    public bool attentionInstantieted;
     void Awake()
     {
         if (instance == null)
@@ -20,6 +23,10 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
+    public bool GetUniquePlayerState()
+    {
+        return uniquePlayer;
+    }
     public string GetUserID()
     {
         return id;
@@ -28,6 +35,23 @@ public class GameManager : MonoBehaviour
     {
         return playerName;
     }
+    public bool GetAuthState()
+    {
+        return authFromTheory;
+    }
+    public bool GetEmptyAuthDataState()
+    {
+        return emptyAuthData;
+    }
+
+    public void SetEmptyAuthDataState(bool state)
+    {
+        emptyAuthData = state;
+    }
+    public void SetUniquePlayerState(bool state)
+    {
+        uniquePlayer = state;
+    }
     public void SetUserID(string id)
     {
         this.id = id;
@@ -35,10 +59,6 @@ public class GameManager : MonoBehaviour
     public void SetUserName(string name)
     {
         this.playerName = name;
-    }
-    public bool GetAuthState()
-    {
-        return authFromTheory;
     }
     public void SetAuthFromTheoryState(bool state)
     {
