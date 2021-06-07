@@ -36,9 +36,14 @@ public class ComponentInstallation : MonoBehaviour
                 }
             case "RAM":
                 {
-                    if (!other.gameObject.GetComponent<SlotEmptyState>().slotEmpty) break;
-                    InstallComponent(other.gameObject, 0, 90, -90, "ОЗУ установлена!");
-                    AchievementsManager.instance.RamInstalled(true);
+                    SlotEmptyState slotEmptyState = other.gameObject.GetComponent<SlotEmptyState>();
+                    if (slotEmptyState != null)
+                    {
+                        if (!slotEmptyState.slotEmpty) break;
+                        InstallComponent(other.gameObject, 0, 90, -90, "ОЗУ установлена!");
+                        AchievementsManager.instance.RamInstalled(true);
+                        break;
+                    }
                     break;
                 }
         }

@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     private bool authFromTheory;
     private bool uniquePlayer;
     private bool emptyAuthData;
+    public bool playerExist;
+    public bool authScene;
+    public bool mainScene;
     public bool attentionInstantieted;
     void Awake()
     {
@@ -27,11 +30,11 @@ public class GameManager : MonoBehaviour
     {
         return uniquePlayer;
     }
-    public string GetUserID()
+    public string GetPlayerID()
     {
         return id;
     }
-    public string GetUserName()
+    public string GetPlayerName()
     {
         return playerName;
     }
@@ -43,7 +46,6 @@ public class GameManager : MonoBehaviour
     {
         return emptyAuthData;
     }
-
     public void SetEmptyAuthDataState(bool state)
     {
         emptyAuthData = state;
@@ -52,11 +54,11 @@ public class GameManager : MonoBehaviour
     {
         uniquePlayer = state;
     }
-    public void SetUserID(string id)
+    public void SetPlayerID(string id)
     {
         this.id = id;
     }
-    public void SetUserName(string name)
+    public void SetPlayerName(string name)
     {
         this.playerName = name;
     }

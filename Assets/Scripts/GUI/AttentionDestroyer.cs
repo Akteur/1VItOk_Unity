@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,13 +10,24 @@ public class AttentionDestroyer : MonoBehaviour
     {
         attentionTextGO = GameObject.Find("AttentionText (TMP)");
         attentionTextMeshPro = attentionTextGO.GetComponent<TextMeshProUGUI>();
-        if (!GameManager.instance.GetUniquePlayerState())
+        if (GameManager.instance.authScene)
         {
-            attentionTextMeshPro.text = "Имя занято!";
+            if (!GameManager.instance.GetUniquePlayerState())
+            {
+                attentionTextMeshPro.text = "Имя занято!";
+            }
+            if(GameManager.instance.GetEmptyAuthDataState())
+            {
+                attentionTextMeshPro.text = "Введите логин и пароль!";
+            }
         }
-        if (GameManager.instance.GetEmptyAuthDataState())
+        if (GameManager.instance.mainScene)
         {
-            attentionTextMeshPro.text = "Введите логин и пароль!";
+            attentionTextMeshPro.text = "Aвторизируйтесь!";
+        }
+        if (!GameManager.instance.playerExist)
+        {
+            attentionTextMeshPro.text = "Игрок не существует!";
         }
         StartCoroutine(AttentionDestroy());
     }

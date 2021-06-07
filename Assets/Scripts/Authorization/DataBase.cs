@@ -6,35 +6,28 @@ using UnityEngine;
 public class DataBase : MonoBehaviour
 {
     private const string fileName = "Players.bytes";
+    private static string path;
     private static string DBPath;
     private static SqliteConnection connection;
     private static SqliteCommand command;
     private void Awake()
     {
+        Directory.CreateDirectory(Application.dataPath + "/DataBase");
         DBPath = GetDatabasePath();
-        BaseExist();        
-        BaseExist();        
+        BaseExist();             
     }
     private void Start()
-    {
+    {        
         TableExist();
     }
     static DataBase()
     {
-        //DBPath = GetDatabasePath();
+        
     }
     private static string GetDatabasePath()
     {
-        return Path.Combine(Application.dataPath, fileName);
-    }
-    private static void UnpackDatabase(string toPath)
-    {
-        string fromPath = Path.Combine(Application.streamingAssetsPath, fileName);
-
-        WWW reader = new WWW(fromPath);
-        while (!reader.isDone) { }
-
-        File.WriteAllBytes(toPath, reader.bytes);
+        path = Application.dataPath + "/DataBase/" + fileName;
+        return path;
     }
     private static void OpenConnection()
     {
@@ -80,6 +73,19 @@ public class DataBase : MonoBehaviour
         command.Parameters.AddWithValue("@" + paramName1, paramValue1);
         command.Parameters.AddWithValue("@" + paramName2, paramValue2);
         command.Parameters.AddWithValue("@" + paramName3, paramValue3);
+        command.ExecuteNonQuery();
+        CloseConnection();
+    }
+    public void ExecuteQueryWithoutAnswer(string query, string paramName1,
+    string paramName2, string paramName3, string paramName4, 
+    string paramValue1, string paramValue2, string paramValue3, string paramValue4)
+    {
+        OpenConnection();
+        command.CommandText = query;
+        command.Parameters.AddWithValue("@" + paramName1, paramValue1);
+        command.Parameters.AddWithValue("@" + paramName2, paramValue2);
+        command.Parameters.AddWithValue("@" + paramName3, paramValue3);
+        command.Parameters.AddWithValue("@" + paramName4, paramValue4);
         command.ExecuteNonQuery();
         CloseConnection();
     }
@@ -147,9 +153,13 @@ public class DataBase : MonoBehaviour
     }
     public void TableExist()
     {
-        string query = "create table if not exists Player " +
+        string playersQuery = "create table if not exists Player " +
             "( id INTEGER NOT NULL UNIQUE, name TEXT UNIQUE, password TEXT, PRIMARY KEY( id ) )";
-        ExecuteQueryWithoutAnswer(query);
+        ExecuteQueryWithoutAnswer(playersQuery);
+        string buildingQuery = "CREATE TABLE Building " +
+            "(Id INTEGER NOT NULL UNIQUE, PlayerId INTEGER NOT NULL, minutes INTEGER, seconds INTEGER,	PRIMARY KEY(Id))";
+        ExecuteQueryWithoutAnswer(buildingQuery);
+
     }
     public void BaseExist()
     {

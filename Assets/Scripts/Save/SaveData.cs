@@ -15,6 +15,8 @@ public class SaveData
     public bool videocardInstalled;
     public bool ramInstalled;
 
+    public float buildTime;
+
     public SaveData(PlayerData playerData)
     {
         buildStarted = playerData.buildStarted;
@@ -56,5 +58,7 @@ public class SaveData
         ramRotation[0] = playerData.ramRot.x;
         ramRotation[1] = playerData.ramRot.y;
         ramRotation[2] = playerData.ramRot.z;
+
+        buildTime = playerData.buildTime;
     }
 }

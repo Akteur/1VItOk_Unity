@@ -9,9 +9,12 @@ public class LoadButton : MonoBehaviour
     [SerializeField] GameObject processor;
     [SerializeField] GameObject ram;
     [SerializeField] GameObject player;
+    [SerializeField] GameObject timerGO;
     PlayerData playerData;
+    TimerScript timer;
     public void Load()
     {
+        timer = timerGO.GetComponent<TimerScript>();
         SaveData data = SaveSystem.Load();
         player.transform.position = playerData.playerPos;
 
@@ -23,5 +26,7 @@ public class LoadButton : MonoBehaviour
 
         ram.transform.position = playerData.ramPos;
         ram.transform.rotation = playerData.ramRot;
+
+        timer.timePassed = playerData.buildTime;
     }
 }

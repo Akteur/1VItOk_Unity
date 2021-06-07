@@ -96,7 +96,7 @@ public class Authorization : MonoBehaviour
         }
         return result;
     }
-    int GetMaxId()
+    private int GetMaxId()
     {
         string tempId;
         int id;
@@ -143,8 +143,8 @@ public class Authorization : MonoBehaviour
         {
             if(UserId != null)
             {
-                GameManager.instance.SetUserID(UserId);
-                GameManager.instance.SetUserName(playerName);
+                GameManager.instance.SetPlayerID(UserId);
+                GameManager.instance.SetPlayerName(playerName);
                 if (GameManager.instance.GetAuthState())
                 {
                     SceneManager.LoadScene("MainScene");
@@ -154,12 +154,27 @@ public class Authorization : MonoBehaviour
                     SceneManager.LoadScene("Motherboard");
                 }
             }
+            else
+            {
+                if (!GameManager.instance.attentionInstantieted)
+                {
+                    GameObject canvas = GameObject.Find("Canvas");
+                    GameManager.instance.authScene = false;
+                    GameManager.instance.mainScene = false;
+                    GameManager.instance.playerExist = false;
+                    Instantiate(attention, canvas.transform);
+                    GameManager.instance.attentionInstantieted = true;
+                }
+            }
         }
         else
         {
             if (!GameManager.instance.attentionInstantieted)
             {
                 GameObject canvas = GameObject.Find("Canvas");
+                GameManager.instance.authScene = true;
+                GameManager.instance.mainScene = false;
+                GameManager.instance.playerExist = true;
                 Instantiate(attention, canvas.transform);
                 GameManager.instance.attentionInstantieted = true;
             }

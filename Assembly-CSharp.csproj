@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\Managers\GetGameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\Loader.cs" />
     <Compile Include="Assets\Scripts\Managers\PauseMenu.cs" />
+    <Compile Include="Assets\Scripts\Managers\TimerScript.cs" />
     <Compile Include="Assets\Scripts\Motherboard\ComponentSlots\PcieButton.cs" />
     <Compile Include="Assets\Scripts\Motherboard\ComponentSlots\RamSlotsButton.cs" />
     <Compile Include="Assets\Scripts\Motherboard\ComponentSlots\SataButton.cs" />

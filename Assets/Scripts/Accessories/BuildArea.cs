@@ -11,17 +11,20 @@ public class BuildArea : MonoBehaviour
     [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject pauseManuObject;
     [SerializeField] GameObject buildStartedAchievement;
+    [SerializeField] GameObject timer;
     [SerializeField] Transform window;
     GUIObjectName gui;
     MouseLook scriptMouseLook;
     PauseMenu pauseMenu;
     PCbuilding pcBuilding;
     AchievementEarned achievement;
+    TimerScript timerScript;
     public bool inBuildArea = false;
     public bool canBuild = false;
     public bool buildStarted = false;
     private void Start()
     {
+        timerScript = timer.GetComponent<TimerScript>();
         achievement = buildStartedAchievement.GetComponent<AchievementEarned>();
         gui = mainCamera.GetComponent<GUIObjectName>();
         scriptMouseLook = player.GetComponent<MouseLook>();
@@ -81,6 +84,8 @@ public class BuildArea : MonoBehaviour
                 buildStarted = true;
                 pauseMenu.canPause = false;
                 achievement.AchievementEarn(true);
+                timerScript.saveTime = false;
+                timerScript.startTimer = true;
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape) && buildStarted)
@@ -91,6 +96,8 @@ public class BuildArea : MonoBehaviour
                 gui.canMove = true;
                 gui.buildAreaHelpPickup = false;
                 StartCoroutine(CanPause());
+                timerScript.saveTime = true;
+                timerScript.startTimer = false;
             }
         }
     }

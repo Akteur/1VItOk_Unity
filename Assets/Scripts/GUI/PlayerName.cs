@@ -10,14 +10,14 @@ public class PlayerName : MonoBehaviour
     }
     private void SetPlayerName()
     {
-        string name = GameManager.instance.GetUserName();
+        string name = GameManager.instance.GetPlayerName();
         if (name == null)
         {
             playerName.text = "NAME";
         }
         else
         {
-            playerName.text = GameManager.instance.GetUserName();
+            playerName.text = GameManager.instance.GetPlayerName();
         }
     }
 }

@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Motherboard.unity
+- path: Assets/Scenes/Authorization.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

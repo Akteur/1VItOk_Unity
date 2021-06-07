@@ -8,24 +8,31 @@ public static class SaveSystem
     {
         BinaryFormatter formatter = new BinaryFormatter();
         Directory.CreateDirectory(Application.dataPath + "/Save");
-        string path = Application.dataPath + "/Save/" + playerData.playerName + ".save";
-        FileStream fileStream = new FileStream(path, FileMode.Create);
+        if(playerData.playerName != null)
+        {
+            string path = Application.dataPath + "/Save/" + playerData.playerName + ".save";
+            FileStream fileStream = new FileStream(path, FileMode.Create);
 
-        SaveData saveData = new SaveData(playerData);
+            SaveData saveData = new SaveData(playerData);
 
-        formatter.Serialize(fileStream, saveData);
-        fileStream.Close();
+            formatter.Serialize(fileStream, saveData);
+            fileStream.Close();
+        }
+        else
+        {
+
+        }
     }
     public static SaveData Load()
     {
         string path;
-        if (GameManager.instance.GetUserName() == null)
+        if (GameManager.instance.GetPlayerName() != null)
         {
-            path = Application.dataPath + "/NAME.save";
+            path = Application.dataPath + "/Save/" + GameManager.instance.GetPlayerName() + ".save";
         }
         else
         {
-            path = Application.dataPath + "/Save/" + GameManager.instance.GetUserName() + ".save";
+            path = null;
         }
         if (File.Exists(path))
         {
