@@ -14,7 +14,6 @@ public class PickUpObject : MonoBehaviour
     [SerializeField] RectTransform rectTransformCanvas;
     [SerializeField] GameObject lookHand;
     [SerializeField] GameObject mainCamera;
-    [SerializeField] GameObject table;
     [SerializeField] TextMeshProUGUI textMesh;
     [SerializeField] Transform player;
     [SerializeField] GameObject globalVolume;
@@ -27,7 +26,6 @@ public class PickUpObject : MonoBehaviour
     private float wheelSpeed = 0.5f;
     public bool PickedUp = false;
     private float x, y;
-    List<string> strings;
     void Start()
     {
         scriptGUI = mainCamera.GetComponent<GUIObjectName>();
@@ -58,11 +56,11 @@ public class PickUpObject : MonoBehaviour
         {
             ChangeTextPanel();
         }
-        if (raycastScript.succesful)
+        if (raycastScript.succesful && !GameManager.instance.buildStarted)
         {
+            if (raycastScript.raycastedObject == null) return;
             var scriptView = raycastScript.raycastedObject.GetComponent<ObjectView>();
-            var buildArea = table.GetComponent<BuildArea>();
-            if (scriptGUI.controlPossibility && !buildArea.inBuildArea)
+            if (scriptGUI.controlPossibility && !GameManager.instance.inBuildArea && scriptView != null)
             {
                 if (Input.GetMouseButton(0) && !pauseMenu.paused)
                 {

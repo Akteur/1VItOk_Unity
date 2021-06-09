@@ -116,6 +116,7 @@
     <Compile Include="Assets\Scripts\Save\SaveData.cs" />
     <Compile Include="Assets\Scripts\Save\SavePreferences.cs" />
     <Compile Include="Assets\Scripts\Save\SaveSystem.cs" />
+    <Compile Include="Assets\Scripts\Save\manualSaving.cs" />
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

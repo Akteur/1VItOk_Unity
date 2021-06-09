@@ -32,13 +32,13 @@ public class TimerScript : MonoBehaviour
         if (startTimer)
         {
             timePassed += Time.deltaTime;
-            minutes = (int)time / 60;
-            seconds = (int)time % 60;
         }
         else if(saveTime)
         {
             SaveTime();
         }
+        minutes = (int)time / 60;
+        seconds = (int)time % 60;
     }
     public void TimerTextUpdate(TextMeshProUGUI minutesTMPro, TextMeshProUGUI secondsTMPro, int minutes, int seconds)
     {
@@ -47,6 +47,7 @@ public class TimerScript : MonoBehaviour
     }
     public void TimerTextUpdate(TextMeshProUGUI minutesTMPro, TextMeshProUGUI secondsTMPro, float time)
     {
+        timePassed = time;
         int minutesValue = (int)time / 60;
         int secondsValue = (int)time % 60;
         minutesTMPro.text = minutesValue >= 10 ? minutesValue.ToString() : "0" + minutesValue.ToString();

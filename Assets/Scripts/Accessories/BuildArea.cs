@@ -19,9 +19,7 @@ public class BuildArea : MonoBehaviour
     PCbuilding pcBuilding;
     AchievementEarned achievement;
     TimerScript timerScript;
-    public bool inBuildArea = false;
     public bool canBuild = false;
-    public bool buildStarted = false;
     private void Start()
     {
         timerScript = timer.GetComponent<TimerScript>();
@@ -34,7 +32,7 @@ public class BuildArea : MonoBehaviour
     private void Update()
     {
         StartBuild();
-        if (buildStarted)
+        if (GameManager.instance.buildStarted)
         {
             MoveWindow(27.3f);
         }
@@ -46,10 +44,10 @@ public class BuildArea : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         string objectName = other.name;
-        if (objectName == "Player" && !buildStarted)
+        if (objectName == "Player" && !GameManager.instance.buildStarted)
         {
             canBuild = true;
-            inBuildArea = true;
+            GameManager.instance.inBuildArea = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -58,7 +56,7 @@ public class BuildArea : MonoBehaviour
         if (objectName == "Player")
         {
             canBuild = false;
-            inBuildArea = false;
+            GameManager.instance.inBuildArea = false;
         }
     }
     IEnumerator CanPause()
@@ -70,7 +68,7 @@ public class BuildArea : MonoBehaviour
     {    
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (canBuild && !buildStarted)
+            if (canBuild && !GameManager.instance.buildStarted)
             {
                 StopAllCoroutines();
                 pcBuilding.buildHand.transform.localPosition = new Vector3(0, 0, 0.7f);
@@ -81,24 +79,23 @@ public class BuildArea : MonoBehaviour
                 scriptMouseLook.rotationX = 0;
                 gui.canMove = false;
                 gui.helpText = "Возьмите комплектующее";
-                buildStarted = true;
+                GameManager.instance.buildStarted = true;
+                AchievementsManager.instance.BuildStarted(true);
                 pauseMenu.canPause = false;
                 achievement.AchievementEarn(true);
                 timerScript.saveTime = false;
                 timerScript.startTimer = true;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && buildStarted)
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.instance.buildStarted)
         {
-            if (buildStarted)
-            {
-                buildStarted = false;
-                gui.canMove = true;
-                gui.buildAreaHelpPickup = false;
-                StartCoroutine(CanPause());
-                timerScript.saveTime = true;
-                timerScript.startTimer = false;
-            }
+            GameManager.instance.buildStarted = false;
+            GameManager.instance.autoSave = true;
+            gui.canMove = true;
+            gui.buildAreaHelpPickup = false;
+            StartCoroutine(CanPause());
+            timerScript.saveTime = true;
+            timerScript.startTimer = false;
         }
     }
     private void MoveWindow(float y)

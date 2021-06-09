@@ -129,6 +129,10 @@ public class Authorization : MonoBehaviour
             {
                 GameObject canvas = GameObject.Find("Canvas");
                 Instantiate(attention, canvas.transform);
+                GameManager.instance.authScene = false;
+                GameManager.instance.mainScene = false;
+                GameManager.instance.playerExist = false;
+                GameManager.instance.registration = true;
                 GameManager.instance.attentionInstantieted = true;
             }
         }
@@ -162,6 +166,7 @@ public class Authorization : MonoBehaviour
                     GameManager.instance.authScene = false;
                     GameManager.instance.mainScene = false;
                     GameManager.instance.playerExist = false;
+                    GameManager.instance.registration = false;
                     Instantiate(attention, canvas.transform);
                     GameManager.instance.attentionInstantieted = true;
                 }
@@ -175,6 +180,7 @@ public class Authorization : MonoBehaviour
                 GameManager.instance.authScene = true;
                 GameManager.instance.mainScene = false;
                 GameManager.instance.playerExist = true;
+                GameManager.instance.registration = false;
                 Instantiate(attention, canvas.transform);
                 GameManager.instance.attentionInstantieted = true;
             }

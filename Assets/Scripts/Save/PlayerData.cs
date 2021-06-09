@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class PlayerData : MonoBehaviour
     [SerializeField] GameObject ram;
     [SerializeField] GameObject player;
     [SerializeField] GameObject timer;
+    [SerializeField] TextMeshProUGUI minutes;
+    [SerializeField] TextMeshProUGUI seconds;
     [SerializeField] GameObject attention;
     TimerScript timerScript;
 
@@ -87,15 +90,19 @@ public class PlayerData : MonoBehaviour
             ramRot.z = data.ramRotation[2];
             ram.transform.rotation = Quaternion.Euler(ramRot.x, ramRot.y, ramRot.z);
         
-            timerScript.timePassed = data.buildTime;
-            timerScript.TimerTextUpdate(timerScript.minutesText, timerScript.secondsText, data.buildTime);
+            timerScript.TimerTextUpdate(minutes, seconds, data.buildTime);
+
+            AchievementsManager.instance.BuildStarted(data.buildStarted);
+            AchievementsManager.instance.VideocardInstalled(data.videocardInstalled);
+            AchievementsManager.instance.ProcessorInstalled(data.processorInstalled);
+            AchievementsManager.instance.RamInstalled(data.ramInstalled);
         }
     }
     public void Save()
     {
         if(GameManager.instance.GetPlayerName() == null)
         {
-            if (!GameManager.instance.attentionInstantieted)
+            if (!GameManager.instance.attentionInstantieted && !GameManager.instance.autoSave)
             {
                 GameObject canvas = GameObject.Find("Canvas");
                 GameManager.instance.authScene = false;
@@ -106,7 +113,6 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
-
             playerPos.x = player.transform.position.x;
             playerPos.y = player.transform.position.y;
             playerPos.z = player.transform.position.z;

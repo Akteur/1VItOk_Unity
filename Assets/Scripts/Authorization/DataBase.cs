@@ -156,7 +156,7 @@ public class DataBase : MonoBehaviour
         string playersQuery = "create table if not exists Player " +
             "( id INTEGER NOT NULL UNIQUE, name TEXT UNIQUE, password TEXT, PRIMARY KEY( id ) )";
         ExecuteQueryWithoutAnswer(playersQuery);
-        string buildingQuery = "CREATE TABLE Building " +
+        string buildingQuery = "create table if not exists Building " +
             "(Id INTEGER NOT NULL UNIQUE, PlayerId INTEGER NOT NULL, minutes INTEGER, seconds INTEGER,	PRIMARY KEY(Id))";
         ExecuteQueryWithoutAnswer(buildingQuery);
 

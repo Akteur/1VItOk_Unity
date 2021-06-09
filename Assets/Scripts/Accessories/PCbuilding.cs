@@ -6,12 +6,10 @@ public class PCbuilding : MonoBehaviour
 {
     [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject player;
-    [SerializeField] GameObject table;
     [SerializeField] public GameObject buildHand;
     [SerializeField] GameObject manager;
     private GUIObjectName gui;
     private ObjectScaling objectScaling;
-    private BuildArea buildArea;
     private Raycasting raycastScript;
     private ComponentInstallation componentInstallation;
     private float wheelSpeed = 0.5f;
@@ -20,7 +18,6 @@ public class PCbuilding : MonoBehaviour
     void Start()
     {
         objectScaling = mainCamera.GetComponent<ObjectScaling>();
-        buildArea = table.GetComponent<BuildArea>();
         raycastScript = mainCamera.GetComponent<Raycasting>();
         gui = mainCamera.GetComponent<GUIObjectName>();
     }
@@ -42,7 +39,7 @@ public class PCbuilding : MonoBehaviour
         {
             return;
         }
-        if (buildArea.buildStarted)
+        if (GameManager.instance.buildStarted)
         {
             componentInstallation = raycastScript.raycastedObject.GetComponent<ComponentInstallation>();
             if (raycastScript.succesful)
@@ -57,13 +54,24 @@ public class PCbuilding : MonoBehaviour
                     }
                     else if(pickedUp && !componentInstallation.componentInstalled && pressed)
                     {
-                        DropObject(raycastScript.raycastedObject);
+                        DropObject(raycastScript.raycastedObject, false);
                         raycastScript.raycastedObject = null;
                         pickedUp = false;
                         pressed = false;
                         buildHand.transform.localPosition = new Vector3(0, 0, 0.7f);
                     }
                 }
+            }
+        }
+        else
+        {
+            if (raycastScript.succesful && pickedUp)
+            {
+                DropObject(raycastScript.raycastedObject, true);
+                raycastScript.raycastedObject = null;
+                pickedUp = false;
+                pressed = false;
+                buildHand.transform.localPosition = new Vector3(0, 0, 0.7f);
             }
         }
     }
@@ -92,11 +100,14 @@ public class PCbuilding : MonoBehaviour
         gui.buildAreaHelpInstall = false;
         obj.GetComponent<Rigidbody>().isKinematic = true;
     }
-    private void DropObject(GameObject obj)
+    private void DropObject(GameObject obj, bool exitWithComponent)
     {
-        GameObject objPlace = GameObject.Find(raycastScript.raycastedObject.name + "Place");
-        obj.transform.position = objPlace.transform.position;
-        obj.transform.rotation = objPlace.transform.rotation;
-
+        if (GameManager.instance.buildStarted || exitWithComponent)
+        {
+            GameObject objPlace = GameObject.Find(raycastScript.raycastedObject.name + "Place");
+            obj.transform.position = objPlace.transform.position;
+            obj.transform.rotation = objPlace.transform.rotation;
+            obj.GetComponent<Rigidbody>().isKinematic = false;
+        }
     }
 }

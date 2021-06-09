@@ -14,7 +14,6 @@ public class GUIObjectName : MonoBehaviour
     [SerializeField] TextMeshProUGUI shortExplain;
     [SerializeField] Text actionDescription;
     [SerializeField] GameObject mainCamera;
-    [SerializeField] GameObject table;
     [SerializeField] Image actionDescriptionBackground;
     [SerializeField] Image eBackground;
     [SerializeField] Image helpBackground;
@@ -29,7 +28,6 @@ public class GUIObjectName : MonoBehaviour
     [SerializeField] Transform canvas;
     Raycasting raycastScript;
     PickUpObject pickUpScript;
-    BuildArea buildArea;
     PCbuilding pcBuildingScript;
     public bool showName = false;
     public bool canMove = true;
@@ -47,7 +45,6 @@ public class GUIObjectName : MonoBehaviour
     {
         raycastScript = mainCamera.GetComponent<Raycasting>();
         pickUpScript = mainCamera.GetComponent<PickUpObject>();
-        buildArea = table.GetComponent<BuildArea>();
         pcBuildingScript = mainCamera.GetComponent<PCbuilding>();
     }
     private void Update()
@@ -88,21 +85,21 @@ public class GUIObjectName : MonoBehaviour
                 PickUpObjectOpacity(true);
             }
         }
-        else if(!showName && !buildArea.inBuildArea)
+        else if(!showName && !GameManager.instance.inBuildArea)
         {
             PickUpObjectOpacity(false);
         }
-        else if(showName && buildArea.buildStarted)
+        else if(showName && GameManager.instance.buildStarted)
         {
             ShortExplainTextGUI(true);
             PickUpObjectOpacity(true);
         }
-        else if(buildArea.inBuildArea && !buildArea.buildStarted)
+        else if(GameManager.instance.inBuildArea && !GameManager.instance.buildStarted)
         {
             BuildStartingTextGUI(true);
             PressEOpacity(true);
         }
-        if (buildArea.buildStarted)
+        if (GameManager.instance.buildStarted)
         {
             BuildStartingTextGUI(false);
             PressEOpacity(false);
@@ -113,7 +110,7 @@ public class GUIObjectName : MonoBehaviour
             BuildHelpTextGUI(false);
         }
         
-        if (buildArea.buildStarted)
+        if (GameManager.instance.buildStarted)
         {
             if (!buildAreaHelpPickup)
             {
@@ -213,12 +210,15 @@ public class GUIObjectName : MonoBehaviour
     {
         if (pickUpObjectVisibility)
         {
-            actionDescription.text = raycastScript.raycastedObject.GetComponent<Name>().ObjectName;
-            ActionDescriptionOpacity(true);
-            if (!buildArea.inBuildArea)
+            if(raycastScript.raycastedObject != null)
             {
-                ShortExplainTextGUI(true);
-                LMBopacity(true);
+                actionDescription.text = raycastScript.raycastedObject.GetComponent<Name>().ObjectName;
+                ActionDescriptionOpacity(true);
+                if (!GameManager.instance.inBuildArea)
+                {
+                    ShortExplainTextGUI(true);
+                    LMBopacity(true);
+                }
             }
         }
         else

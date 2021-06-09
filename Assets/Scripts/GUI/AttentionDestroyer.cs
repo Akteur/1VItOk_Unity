@@ -6,8 +6,10 @@ public class AttentionDestroyer : MonoBehaviour
 {
     GameObject attentionTextGO;
     TextMeshProUGUI attentionTextMeshPro;
+    private bool saving;
     void Start()
     {
+        saving = false;
         attentionTextGO = GameObject.Find("AttentionText (TMP)");
         attentionTextMeshPro = attentionTextGO.GetComponent<TextMeshProUGUI>();
         if (GameManager.instance.authScene)
@@ -24,8 +26,9 @@ public class AttentionDestroyer : MonoBehaviour
         if (GameManager.instance.mainScene)
         {
             attentionTextMeshPro.text = "Aвторизируйтесь!";
+            saving = true;
         }
-        if (!GameManager.instance.playerExist)
+        if (!GameManager.instance.playerExist && !GameManager.instance.registration && !saving)
         {
             attentionTextMeshPro.text = "Игрок не существует!";
         }

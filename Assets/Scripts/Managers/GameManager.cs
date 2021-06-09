@@ -13,7 +13,11 @@ public class GameManager : MonoBehaviour
     public bool playerExist;
     public bool authScene;
     public bool mainScene;
+    public bool registration;
     public bool attentionInstantieted;
+    public bool buildStarted;
+    public bool inBuildArea;
+    public bool autoSave;
     void Awake()
     {
         if (instance == null)
